@@ -2,69 +2,70 @@
 <html>
 
     <head>
-       <title>Background with Parallax</title>
-       <script src="animation.js"></script>
-       <script src="background.js"></script>
-       <script src="spaceship.js" charset="utf-8"></script>
-       <script src="keyboard.js" charset="utf-8"></script>
-       <script src="spritesheet.js" charset="utf-8"></script>
+        <title>Background with Parallax</title>
+        <script src="js/animation.js"></script>
+        <script src="js/background.js"></script>
+        <script src="js/spaceship.js" charset="utf-8"></script>
+        <script src="js/keyboard.js" charset="utf-8"></script>
+        <script src="js/spritesheet.js" charset="utf-8"></script>
     </head>
 
     <body>
-       <canvas id="canvas_background" width="500" height="500"></canvas>
-       <script>
-          var imgSpace = new Image();
-          imgSpace.src = 'img/space-background.png';
+        <canvas id="canvas_background" width="500" height="500"></canvas>
+        <script>
+            var imgSpace = new Image();
+            imgSpace.src = 'img/space-background.png';
 
-          var imgStars = new Image();
-          imgStars.src = 'img/stars-background.png';
+            var imgStars = new Image();
+            imgStars.src = 'img/stars-background.png';
 
-          var imgClouds = new Image();
-          imgClouds.src = 'img/clouds-background.png';
+            var imgClouds = new Image();
+            imgClouds.src = 'img/clouds-background.png';
 
-          var imgSpaceship = new Image();
-          imgSpaceship.src = 'img/spaceship-spritesheet.png';
+            var imgSpaceship = new Image();
+            imgSpaceship.src = 'img/spaceship-spritesheet.png';
 
-          var loaded = 0;
-          var total = 4;
+            var loaded = 0;
+            var total = 4;
 
-          imgSpace.onload = load;
-          imgStars.onload = load;
-          imgClouds.onload = load;
-          imgSpaceship.onload = load;
+            imgSpace.onload = load;
+            imgStars.onload = load;
+            imgClouds.onload = load;
+            imgSpaceship.onload = load;
 
-          function load() {
-             loaded++;
-             if (loaded == total) start();
-          }
+            function load() {
+                loaded++;
+                if (loaded == total) start();
+            }
 
-          function start() {
-             var canvas = document.getElementById('canvas_background');
-             var context = canvas.getContext('2d');
-             var keyboard = new Keyboard(document);
+            function start() {
+                var canvas = document.getElementById('canvas_background');
+                var context = canvas.getContext('2d');
+                var keyboard = new Keyboard(document);
 
-             // Context and image to the objects Background
-             var backgroundSpace = new Background(context, imgSpace);
-             var backgroundStars = new Background(context, imgStars);
-             var backgroundClouds = new Background(context, imgClouds);
+                // Context and image to the objects Background
+                var backgroundSpace = new Background(context, imgSpace);
+                var backgroundStars = new Background(context, imgStars);
+                var backgroundClouds = new Background(context, imgClouds);
 
-             var spaceship = new Spaceship(context, keyboard, imgSpaceship);
+                var spaceship = new Spaceship(context, keyboard, imgSpaceship);
 
-             // Each with a different speed
-             backgroundSpace.speed = 3;
-             backgroundStars.speed = 7;
-             backgroundClouds.speed = 10;
-             spaceship.speed = 5;
-             spaceship.x = canvas.width / 2 - imgSpaceship.width / 2;
-             spaceship.y = canvas.height * 2 / 3;
+                // Each with a different speed
+                backgroundSpace.speed = 3;
+                backgroundStars.speed = 7;
+                backgroundClouds.speed = 10;
+                spaceship.speed = 5;
+                spaceship.x = canvas.width / 2 - imgSpaceship.width / 2;
+                spaceship.y = canvas.height * 2 / 3;
 
-             var animation = new Animation(context);
-             animation.newSprite(backgroundSpace);
-             animation.newSprite(backgroundStars);
-             animation.newSprite(backgroundClouds);
-             animation.newSprite(spaceship);
-             animation.turnOn();
-          }
+                var animation = new Animation(context);
+                animation.newSprite(backgroundSpace);
+                animation.newSprite(backgroundStars);
+                animation.newSprite(backgroundClouds);
+                animation.newSprite(spaceship);
+                animation.turnOn();
+            }
        </script>
     </body>
+
 </html>
