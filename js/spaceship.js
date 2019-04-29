@@ -2,10 +2,11 @@ const SPACESHIP_NORMAL = 0;
 const SPACESHIP_LEFT = 1;
 const SPACESHIP_RIGHT = 2;
 
-function Spaceship(context, keyboard, image) {
+function Spaceship(context, keyboard, image, animation) {
     this.context = context;
     this.keyboard = keyboard;
     this.image = image;
+    this.animation = animation;
     this.x = 0;
     this.y = 0;
     this.speed = 0;
@@ -36,10 +37,28 @@ Spaceship.prototype = {
         this.spritesheet.nextFrame();
     },
     draw: function() {
-        // this.context.drawImage(this.image, this.x, this.y, this.image.width, this.image.height);
         this.spritesheet.draw(this.x, this.y);
 
         // reset normal spaceship
         this.spritesheet.line = SPACESHIP_NORMAL;
+    },
+    shoot: function() {
+        let leftShotX = this.x + this.image.width / 20;
+        let rightShotX = this.x + this.image.width * 9 / 20;
+        let y = this.y + this.image.height / 9;
+
+        let leftShot = new Projectile(this.context, leftShotX, y, UP);
+        let rightShot = new Projectile(this.context, rightShotX, y, UP);
+
+        leftShot.speed = 15;
+        leftShot.radius = 2;
+        leftShot.color = "red";
+
+        rightShot.speed = 15;
+        rightShot.radius = 2;
+        rightShot.color = "red";
+
+        this.animation.newSprite(leftShot);
+        this.animation.newSprite(rightShot);
     }
 }

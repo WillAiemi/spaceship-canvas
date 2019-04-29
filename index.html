@@ -8,6 +8,7 @@
         <script src="js/spaceship.js" charset="utf-8"></script>
         <script src="js/keyboard.js" charset="utf-8"></script>
         <script src="js/spritesheet.js" charset="utf-8"></script>
+        <script src="js/projectile.js" charset="utf-8"></script>
     </head>
 
     <body>
@@ -42,13 +43,14 @@
                 var canvas = document.getElementById('canvas_background');
                 var context = canvas.getContext('2d');
                 var keyboard = new Keyboard(document);
+                var animation = new Animation(context);
 
                 // Context and image to the objects Background
                 var backgroundSpace = new Background(context, imgSpace);
                 var backgroundStars = new Background(context, imgStars);
                 var backgroundClouds = new Background(context, imgClouds);
 
-                var spaceship = new Spaceship(context, keyboard, imgSpaceship);
+                var spaceship = new Spaceship(context, keyboard, imgSpaceship, animation);
 
                 // Each with a different speed
                 backgroundSpace.speed = 3;
@@ -58,11 +60,13 @@
                 spaceship.x = canvas.width / 2 - imgSpaceship.width / 2;
                 spaceship.y = canvas.height * 2 / 3;
 
-                var animation = new Animation(context);
                 animation.newSprite(backgroundSpace);
                 animation.newSprite(backgroundStars);
                 animation.newSprite(backgroundClouds);
                 animation.newSprite(spaceship);
+                keyboard.click(SPACE, function() {
+                    spaceship.shoot();
+                });
                 animation.turnOn();
             }
        </script>

@@ -8,6 +8,8 @@ Animation.prototype = {
     newSprite: function(sprite) {
         this.sprites.push(sprite);
         sprite.animation = this;
+        // returns index of the new added sprite
+        return this.sprites.length - 1;
     },
     turnOn: function() {
         this.isOn = true;
@@ -33,6 +35,8 @@ Animation.prototype = {
             this.sprites[i].draw();
         }
 
+        console.log("length: " + this.sprites.length);
+
         // Keep it cycling
         var animation = this;
         requestAnimationFrame(function() {
@@ -42,5 +46,11 @@ Animation.prototype = {
     clearScreen: function() {
         var ctx = this.context;
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    },
+    removeSprite: function(thing) {
+        let index = this.sprites.indexOf(thing)
+        if (index != -1) {
+            this.sprites.splice(index, 1);
+        }
     }
 }
