@@ -40,7 +40,7 @@ Keyboard.prototype = {
     wasPressed: function(key) {
         return this.pressed[key];
     },
-    click: function(key, callback) {
+    addClickListener: function(key, callback) {
         this.clickFunctions[key] = callback;
     }
 }

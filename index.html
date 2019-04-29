@@ -64,7 +64,7 @@
                 animation.newSprite(backgroundStars);
                 animation.newSprite(backgroundClouds);
                 animation.newSprite(spaceship);
-                keyboard.click(SPACE, function() {
+                keyboard.addClickListener(SPACE, function() {
                     spaceship.shoot();
                 });
                 animation.turnOn();
