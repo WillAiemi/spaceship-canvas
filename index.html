@@ -9,10 +9,13 @@
         <script src="js/keyboard.js" charset="utf-8"></script>
         <script src="js/spritesheet.js" charset="utf-8"></script>
         <script src="js/projectile.js" charset="utf-8"></script>
+        <script src="js/control.js" charset="utf-8"></script>
+        <script src="js/ovni.js" charset="utf-8"></script>
+        <script src="js/explosion.js" charset="utf-8"></script>
     </head>
-
     <body>
-        <canvas id="canvas_background" width="500" height="500"></canvas>
+
+        <canvas id="canvas" width="500" height="500"></canvas>
         <script>
             var imgSpace = new Image();
             imgSpace.src = 'img/space-background.png';
@@ -40,17 +43,20 @@
             }
 
             function start() {
-                var canvas = document.getElementById('canvas_background');
+                var canvas = document.getElementById('canvas');
                 var context = canvas.getContext('2d');
                 var keyboard = new Keyboard(document);
+                var control = new Control(context);
                 var animation = new Animation(context);
+                control.animation = animation;
+                animation.control = control;
 
                 // Context and image to the objects Background
                 var backgroundSpace = new Background(context, imgSpace);
                 var backgroundStars = new Background(context, imgStars);
                 var backgroundClouds = new Background(context, imgClouds);
 
-                var spaceship = new Spaceship(context, keyboard, imgSpaceship, animation);
+                var spaceship = new Spaceship(context, keyboard, imgSpaceship, control);
 
                 // Each with a different speed
                 backgroundSpace.speed = 3;

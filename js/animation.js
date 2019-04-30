@@ -1,5 +1,6 @@
 function Animation(context) {
     this.context = context;
+    this.control = null;
     this.sprites = [];
     this.isOn = false;
 }
@@ -34,6 +35,8 @@ Animation.prototype = {
         for (var i in this.sprites){
             this.sprites[i].draw();
         }
+
+        this.control.checkAll();
 
         console.log("length: " + this.sprites.length);
 

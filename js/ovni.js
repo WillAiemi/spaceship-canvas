@@ -1,17 +1,24 @@
-function Ovni(context, image, animation) {
+function Ovni(context, image) {
     this.context = context;
     this.image = image;
-    this.animation = animation;
-    this.x = Math.floor(Math.random() * (this.context.canvas.width - this.image.width) + 1);
+    this.animation = null;
+    this.control = null;
+    this.x = Math.floor(Math.random() * (this.context.canvas.width - this.image.width));
+    this.maxX = this.x + this.image.width;
+
     this.y = -this.image.height;
-    this.speed = 5;
+    this.speed = 2;
     this.exploding = false;
 }
+
 Ovni.prototype = {
     update: function() {
         // if ovni is not exploding, move
-        if (!exploding) {
+        if (!this.exploding) {
             this.y += this.speed;
+        }
+        if (this.y > this.context.canvas.height) {
+            this.destroySelf();
         }
     },
     draw: function() {
@@ -19,17 +26,20 @@ Ovni.prototype = {
         this.context.drawImage(img, this.x, this.y, img.width, img.height);
     },
     explode: function() {
-        this.exploding = true;
-        let imgExplosion = new Image();
-        imgExplosion.src = "img/explosion.png";
+        if (!this.exploding) {
+            this.exploding = true;
+            let imgExplosion = new Image();
+            imgExplosion.src = "img/explosion.png";
 
-        let explosionX = this.x + this.image.width / 2 - imgExplosion / 10;
-        let explosionY = this.y + this.image.height / 2 - imgExplosion / 2;
-
-        let explosion = new Explosion(this.context, imgExplosion, this.animation, explosionX, explosionY);
-        this.animation.newSprite(explosion);
+            this.explosion = new Explosion(this.context, imgExplosion, this);
+            this.animation.newSprite(this.explosion);
+            return true;
+        } else {
+            return false;
+        }
     },
     destroySelf: function() {
         this.animation.removeSprite(this);
+        this.control.removeOvni(this);
     }
 };

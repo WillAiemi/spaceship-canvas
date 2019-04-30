@@ -2,11 +2,12 @@ const SPACESHIP_NORMAL = 0;
 const SPACESHIP_LEFT = 1;
 const SPACESHIP_RIGHT = 2;
 
-function Spaceship(context, keyboard, image, animation) {
+function Spaceship(context, keyboard, image, control) {
     this.context = context;
     this.keyboard = keyboard;
     this.image = image;
-    this.animation = animation;
+    this.animation = null;
+    this.control = control;
     this.x = 0;
     this.y = 0;
     this.speed = 0;
@@ -57,6 +58,9 @@ Spaceship.prototype = {
         rightShot.speed = 15;
         rightShot.radius = 2;
         rightShot.color = "red";
+
+        this.control.newShot(leftShot);
+        this.control.newShot(rightShot);
 
         this.animation.newSprite(leftShot);
         this.animation.newSprite(rightShot);

@@ -3,7 +3,7 @@ const DOWN = 1;
 const LEFT = 2;
 const RIGHT = 3;
 
-function Projectile(context, x, y, direction, animation) {
+function Projectile(context, x, y, direction) {
     this.context = context;
     this.x = x;
     this.y = y;
@@ -12,7 +12,8 @@ function Projectile(context, x, y, direction, animation) {
     this.color = "black";
     this.radius = 5;
     this.index = 0;
-    this.animation = animation;
+    this.animation = null;
+    this.control = null;
 }
 
 Projectile.prototype = {
@@ -20,10 +21,10 @@ Projectile.prototype = {
         let ctx = this.context;
 
         if (this.x < -this.radius || this.x > ctx.canvas.width || this.y < -this.radius || this.y > ctx.canvas.height) {
-            this.animation.removeSprite(this);
+            this.destroySelf();
             return;
         }
-        
+
         switch (this.direction) {
             case UP:
                 this.y -= this.speed;
@@ -55,5 +56,9 @@ Projectile.prototype = {
 
         // restore the context configurations
         ctx.restore();
+    },
+    destroySelf: function() {
+        this.animation.removeSprite(this);
+        this.control.removeShot(this);
     }
 }
