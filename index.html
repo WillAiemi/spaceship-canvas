@@ -29,6 +29,9 @@
             var imgSpaceship = new Image();
             imgSpaceship.src = 'img/spaceship-spritesheet.png';
 
+            var imgPlayButton = new Image();
+            imgPlayButton.src = 'img/play-button.png';
+
             var loaded = 0;
             var total = 4;
 
@@ -42,12 +45,18 @@
                 if (loaded == total) start();
             }
 
+            var canvas = null;
+            var context = null;
+            var keyboard = null;
+            var control = null;
+            var animation = null;
+
             function start() {
-                var canvas = document.getElementById('canvas');
-                var context = canvas.getContext('2d');
-                var keyboard = new Keyboard(document);
-                var control = new Control(context);
-                var animation = new Animation(context);
+                canvas = document.getElementById('canvas');;
+                context = canvas.getContext('2d');
+                keyboard = new Keyboard(document);
+                control = new Control(context);
+                animation = new Animation(context);
                 control.animation = animation;
                 animation.control = control;
 
@@ -73,7 +82,30 @@
                 keyboard.addClickListener(SPACE, function() {
                     spaceship.shoot();
                 });
+                keyboard.addClickListener(ESC, pauseGame);
                 animation.turnOn();
+            }
+
+            function pauseGame() {
+                if (animation.isOn) {
+                    animation.turnOff();
+                    control.pausedTime = new Date().getTime();
+
+                    context.save();
+                    let txt = "PAUSED";
+                    context.fillStyle = 'white';
+                    context.strokeStyle = 'black';
+                    context.font = '50px sans-serif';
+                    let x = canvas.width / 2 - context.measureText(txt).width / 2;
+                    let y = canvas.height / 3;
+                    context.fillText(txt, x, y);
+                    context.strokeText(txt, x, y);
+                    context.restore();
+                } else {
+                    let now = new Date().getTime();
+                    control.lastTime += now - control.pausedTime;
+                    animation.turnOn();
+                }
             }
        </script>
     </body>
