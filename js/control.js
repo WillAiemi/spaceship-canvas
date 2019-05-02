@@ -5,6 +5,8 @@ function Control(context){
     this.interval = 3000;
     this.lastTime = 0;
     this.shots = [];
+    this.imgOvni = new Image();
+    this.imgOvni.src = "img/ovni.png";
 }
 
 Control.prototype = {
@@ -15,25 +17,34 @@ Control.prototype = {
             this.lastTime = now;
         }
 
+        let shotsHit = [];
+
         if (this.ovnis.length != 0 && this.shots.length != 0) {
             for (var i in this.ovnis) {
                 let ovni = this.ovnis[i];
                 let y = ovni.y + ovni.image.height;
+                let hit = false;
                 for (var j in this.shots) {
                     shot = this.shots[j];
                     if (shot.x >= ovni.x && shot.x <= ovni.maxX && shot.y <= y && shot.y >= ovni.y) {
-                        if (ovni.explode()) {
-                            shot.destroySelf();
+                        if (!ovni.exploding) {
+                            shotsHit.push(shot);
                         }
+                        hit = true;
                     }
+                }
+                if (hit) {
+                    ovni.explode();
                 }
             }
         }
+        for (var i in shotsHit) {
+            shotsHit[i].destroySelf();
+        }
+        // console.log("Ovnis: " + this.ovnis.length);
     },
     createOvni: function() {
-        let imgOvni = new Image();
-        imgOvni.src = "img/ovni.png";
-        let ovni = new Ovni(this.context, imgOvni);
+        let ovni = new Ovni(this.context, this.imgOvni);
         this.animation.newSprite(ovni);
         this.ovnis.push(ovni);
         ovni.control = this;
